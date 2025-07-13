@@ -97,33 +97,33 @@ class PhoneInput extends Field implements HasAffixActions
             return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'), app()->getLocale(), report: false);
         });
 
-        $this->registerListeners([
-            'phoneInput::ipLookup' => [
-                function (PhoneInput $component, string $statePath) {
-                    if ($statePath !== $component->getStatePath()) {
-                        return;
-                    }
+        // $this->registerListeners([
+        //     'phoneInput::ipLookup' => [
+        //         function (PhoneInput $component, string $statePath) {
+        //             if ($statePath !== $component->getStatePath()) {
+        //                 return;
+        //             }
 
-                    if (! $component->canPerformIpLookup()) {
-                        return;
-                    }
+        //             if (! $component->canPerformIpLookup()) {
+        //                 return;
+        //             }
 
-                    /** @var Page $livewire */
-                    $livewire = $component->getLivewire();
+        //             /** @var Page $livewire */
+        //             $livewire = $component->getLivewire();
 
-                    $country = $component->performIpLookup();
+        //             $country = $component->performIpLookup();
 
-                    if (! $country) {
-                        return;
-                    }
+        //             if (! $country) {
+        //                 return;
+        //             }
 
-                    $livewire->dispatch('phoneInput::setCountry', [
-                        'country' => $country,
-                        'statePath' => $statePath,
-                    ]);
-                },
-            ],
-        ]);
+        //             $livewire->dispatch('phoneInput::setCountry', [
+        //                 'country' => $country,
+        //                 'statePath' => $statePath,
+        //             ]);
+        //         },
+        //     ],
+        // ]);
 
         $this->afterStateHydrated(function (PhoneInput $component, $livewire, $state) {
             $country = null;
